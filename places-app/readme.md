@@ -7,5 +7,8 @@ Author : **Redmund Nacario**
 ### Branch: part2-error-handling
 
 * error handling middleware added in the main app.js
-* erro handled per route if the result is empty and then throw error to activate middleware.
+* error handled per route if the result is empty and then throw error to activate middleware.
 
+### Branch: part3-error-model
+
+* error model added. Class extends Error object
