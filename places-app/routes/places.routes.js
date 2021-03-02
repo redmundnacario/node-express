@@ -31,6 +31,13 @@ router.get('/:pid', (req, res, next) => {
     const place = DUMMY_PLACES.find((value) => {
         return value.id == placeId
     })
+
+    if (!place){
+        const error = new Error("Place not found!");
+        error.code = 404;
+        console.log("Error : GET "+req.originalUrl , error.code, error.message)
+        return next(error)
+    }
     
     console.log("GET "+req.originalUrl)
     res.json({place})
@@ -42,6 +49,13 @@ router.get('/user/:uid', (req, res, next) => {
     const place = DUMMY_PLACES.find(value => {
         return value.user_id == userId
     })
+
+    if (!place){
+        const error = new Error("User's place not found!");
+        error.code = 404;
+        console.log("Error : GET "+req.originalUrl, error.code, error.message)
+        return next(error)
+    }
     console.log("GET "+req.originalUrl)
     res.json({place})
 })
