@@ -22,10 +22,20 @@ let DUMMY_PLACES = [
             lon: 121.0851
         },
         user_id: "u2"
+    },
+    {
+        id: 3,
+        title: "Naga City",
+        description: "Ang maogmang lugar",
+        coordinates: {
+            lat: 13.6218,
+            lon: 123.1948
+        },
+        user_id: "u1"
     }
 ]
 
-const getPlacesById = (req, res, next) => {
+const getPlaceById = (req, res, next) => {
     const placeId = req.params.pid
     const place = DUMMY_PLACES.find((value) => {
         return value.id == placeId
@@ -41,15 +51,15 @@ const getPlacesById = (req, res, next) => {
 
 const getPlacesByUserId = (req, res, next) => {
     const userId = req.params.uid
-    const place = DUMMY_PLACES.find(value => {
+    const places = DUMMY_PLACES.filter(value => {
         return value.user_id == userId
     })
 
-    if (!place){
+    if (!places || places.length === 0 ){
         return next(new HttpError("User's place not found!", 404))
     }
     console.log("GET "+req.originalUrl)
-    res.status(200).json({place})
+    res.status(200).json({places})
 }
 
 const createPlace = (req, res, next) => {
@@ -90,7 +100,7 @@ const deletePlace = (req, res, next) => {
     res.status(200).json({message: "Place deleted."})
 }
 
-exports.getPlacesById = getPlacesById;
+exports.getPlaceById = getPlaceById;
 exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
 exports.updatePlace = updatePlace;
