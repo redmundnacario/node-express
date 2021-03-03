@@ -12,3 +12,11 @@ Author : **Redmund Nacario**
 ### Branch: part3-error-model
 
 * error model added. Class extends Error object
+
+### Branch: part4-controller
+
+* controller folder and files added
+* place routes script shortens
+* added post request in places routes and teste in postman
+* installed uuid for generating unique id
+* added error for unsupported routes
