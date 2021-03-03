@@ -20,3 +20,8 @@ Author : **Redmund Nacario**
 * added post request in places routes and teste in postman
 * installed uuid for generating unique id
 * added error for unsupported routes
+
+### Branch: part5-patch-and-delete
+
+* added patch routes
+* added delete routes
