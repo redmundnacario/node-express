@@ -93,10 +93,10 @@ const updatePlace = (req, res, next) => {
 
 const deletePlace = (req, res, next) => {
     const placeId = req.params.pid
-    console.log(placeId)
+    // console.log(placeId)
     DUMMY_PLACES = DUMMY_PLACES.filter(value => value.id != placeId)
 
-    console.log(DUMMY_PLACES)
+    // console.log(DUMMY_PLACES)
     res.status(200).json({message: "Place deleted."})
 }
 
