@@ -25,3 +25,8 @@ Author : **Redmund Nacario**
 
 * added patch routes
 * added delete routes
+
+### Branch: part6-input-validators
+
+* added input validators in patch and post api routes in places
+* added delete routes

@@ -1,6 +1,21 @@
 const { v4: uuidv4 }  = require('uuid')
+const { validationResult } = require('express-validator')
 
 const HttpError = require('../models/http-error');
+
+
+const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+    // Build your resulting errors however you want! String, object, whatever - it works!
+    // return `${location}[${param}]: ${msg}`;
+    if (value == null){
+        return `The '${param}' from the input data is not defined or missing.`;
+    } else if (param === "description" && value.length < 5){
+        return `The length of '${param}' should be greater than 4 characters.`;
+    } else {
+        return `Error in '${param}': ${msg} ${value} `;
+    }
+};
+
 
 let DUMMY_PLACES = [
     {
@@ -63,6 +78,13 @@ const getPlacesByUserId = (req, res, next) => {
 }
 
 const createPlace = (req, res, next) => {
+    const errors = validationResult(req).formatWith(errorFormatter)
+    const hasErrors = !errors.isEmpty()
+
+    if (hasErrors){
+        return next(new HttpError(errors.array(), 422))
+    }
+
     const { title, description, coordinates, user_id } = req.body;
     console.log(req.body)
     const createdPlace = {
@@ -79,6 +101,13 @@ const createPlace = (req, res, next) => {
 }
 
 const updatePlace = (req, res, next) => {
+    const errors = validationResult(req).formatWith(errorFormatter)
+    const hasErrors = !errors.isEmpty()
+
+    if (hasErrors){
+        return next(new HttpError(errors.array(), 422))
+    }
+    
     const { title, description } = req.body
     const placeId = req.params.pid
 
