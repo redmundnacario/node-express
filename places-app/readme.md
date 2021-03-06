@@ -23,10 +23,18 @@ Author : **Redmund Nacario**
 
 ### Branch: part5-patch-and-delete
 
-* added patch routes
-* added delete routes
+* added patch routes in places
+* added delete routes in places 
 
-### Branch: part6-input-validators
+### Branch: part6-user-auth
+
+* add authentication or user routes
+
+### Branch: part7-input-validators
 
 * added input validators in patch and post api routes in places
-* added delete routes
+  
+### Branch: part8-setup-mongoose
+
+* install mongoose, dotenv
+* test connection with mongodb
