@@ -38,3 +38,11 @@ Author : **Redmund Nacario**
 
 * install mongoose, dotenv
 * test connection with mongodb
+
+### Branch: part9-mongoose-create-schema-and-model
+
+* created schema and model for place
+* creating and storing document to MongoDB
+* findById() and find() - for querying
+* places.toObject({getters: true}) -converting to JS object
+* created formatted logging of request urls

@@ -1,6 +1,10 @@
-const { v4: uuidv4 }  = require('uuid')
-const { validationResult } = require('express-validator')
+const { v4: uuidv4 }  = require('uuid');// id generator
+const { validationResult } = require('express-validator');// validator in express
 
+// place model
+const Place = require('../models/places.models');
+
+//error model
 const HttpError = require('../models/http-error');
 
 
@@ -50,34 +54,45 @@ let DUMMY_PLACES = [
     }
 ]
 
-const getPlaceById = (req, res, next) => {
+// GET
+const getPlaceById = async(req, res, next) => {
     const placeId = req.params.pid
-    const place = DUMMY_PLACES.find((value) => {
-        return value.id == placeId
-    })
+    let place
+
+    try{
+        place = await Place.findById(placeId)
+    } catch(err) {
+        console.log(err)
+        return next(new HttpError("Something went wrong in accessing the places. Try again.", 500))
+    }
+
 
     if (!place){
         return next(new HttpError("Place not found!", 404))
     }
     
-    console.log("GET "+req.originalUrl)
-    res.status(200).json({place})
+    res.status(200).json({place: place.toObject({getters: true})})
 }
 
-const getPlacesByUserId = (req, res, next) => {
+// GET
+const getPlacesByUserId = async(req, res, next) => {
     const userId = req.params.uid
-    const places = DUMMY_PLACES.filter(value => {
-        return value.user_id == userId
-    })
+    let places
+
+    try {
+        places = await Place.find({user_id : userId})
+    } catch(err) {
+        return next(new HttpError('Something went wrong in accessing the places. Try again', 500))
+    }
 
     if (!places || places.length === 0 ){
         return next(new HttpError("User's place not found!", 404))
     }
-    console.log("GET "+req.originalUrl)
-    res.status(200).json({places})
+    res.status(200).json({places: places.map(place => place.toObject({getters: true}))})
 }
 
-const createPlace = (req, res, next) => {
+// POST
+const createPlace = async(req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter)
     const hasErrors = !errors.isEmpty()
 
@@ -85,21 +100,26 @@ const createPlace = (req, res, next) => {
         return next(new HttpError(errors.array(), 422))
     }
 
-    const { title, description, coordinates, user_id } = req.body;
-    console.log(req.body)
-    const createdPlace = {
-        id : uuidv4(),
+    const { title, description, image, coordinates, user_id } = req.body;
+
+    const createdPlace = new Place({
         title,
         description,
+        image,
         coordinates,
         user_id
-    }
+    })
 
-    DUMMY_PLACES.push(createdPlace)
+    try{
+        await createdPlace.save()
+    } catch(err){
+        return next( new HttpError("Creating place failed. Try again.", 500))
+    }
 
     res.status(201).json({place : createdPlace});
 }
 
+// PATCH
 const updatePlace = (req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter)
     const hasErrors = !errors.isEmpty()
@@ -120,6 +140,7 @@ const updatePlace = (req, res, next) => {
     res.status(200).json({place:updatedPlace})
 }
 
+// DELETE
 const deletePlace = (req, res, next) => {
     const placeId = req.params.pid
     // console.log(placeId)

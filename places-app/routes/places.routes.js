@@ -15,6 +15,7 @@ router.post('/',
             [
                 check('title').not().isEmpty(),
                 check('description').isLength({min:5}),
+                check('image').not().isEmpty(),
                 check('coordinates').not().isEmpty(),
                 check('user_id').not().isEmpty(),
             ],
