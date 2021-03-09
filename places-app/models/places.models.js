@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 // Schema
-const placesSchema = new Schema({
+const placeSchema = new Schema({
     title: {type: String, required: true},
     description: {type: String, required: true},
     image: {type: String, required: true},
@@ -16,7 +16,7 @@ const placesSchema = new Schema({
 })
 
 // Model
-const Place = mongoose.model("Place", placesSchema)
+const Place = mongoose.model("Place", placeSchema)
 
 // Export Model
 module.exports = Place

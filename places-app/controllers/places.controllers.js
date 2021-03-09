@@ -120,7 +120,7 @@ const createPlace = async(req, res, next) => {
 }
 
 // PATCH
-const updatePlace = (req, res, next) => {
+const updatePlace = async(req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter)
     const hasErrors = !errors.isEmpty()
 
@@ -131,20 +131,44 @@ const updatePlace = (req, res, next) => {
     const { title, description } = req.body
     const placeId = req.params.pid
 
-    const updatedPlace = DUMMY_PLACES.find(value => value.id == placeId)
-    // const placeIndex = DUMMY_PLACES.findIndex(value => value.id == placeId)
+    try{
+        place = await Place.findById(placeId)
+    } catch(err) {
+        console.log(err)
+        return next(new HttpError("Something went wrong in accessing the places. Try again.", 500))
+    }
 
-    updatedPlace.title = title
-    updatedPlace.description = description
+    place.title = title
+    place.description = description
 
-    res.status(200).json({place:updatedPlace})
+    try{
+        await place.save()
+    } catch(err){
+        console.log(err)
+        return next( new HttpError("Updating place failed. Try again.", 500))
+    }
+
+    res.status(200).json({place:place.toObject({getters: true})})
 }
 
 // DELETE
-const deletePlace = (req, res, next) => {
+const deletePlace = async(req, res, next) => {
     const placeId = req.params.pid
     // console.log(placeId)
-    DUMMY_PLACES = DUMMY_PLACES.filter(value => value.id != placeId)
+    //Get place
+    try{
+        place = await Place.findById(placeId)
+    } catch(err) {
+        console.log(err)
+        return next(new HttpError("Something went wrong in accessing the places. Try again.", 500))
+    }
+    // Delete
+    try{
+        await place.remove()
+    } catch(err){
+        return next( new HttpError("Deleting place failed. Try again.", 500))
+    }
+
 
     // console.log(DUMMY_PLACES)
     res.status(200).json({message: "Place deleted."})

@@ -46,3 +46,9 @@ Author : **Redmund Nacario**
 * findById() and find() - for querying
 * places.toObject({getters: true}) -converting to JS object
 * created formatted logging of request urls
+
+
+### Branch: part10-patch-delete-and-users-schema
+
+* connect mongoose to patch and delete
+* create users schema
