@@ -12,7 +12,7 @@ const placeSchema = new Schema({
         lat: {type: Number, required: true},
         lon: {type: Number, required: true}
     },
-    user_id: {type: String, required: true}
+    user_id: {type: mongoose.Types.ObjectId, required: true, ref: "User"}
 })
 
 // Model

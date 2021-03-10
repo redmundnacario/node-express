@@ -14,8 +14,7 @@ router.post('/signup',
             [
                 check('name').not().isEmpty(),
                 check('email').normalizeEmail().isEmail(),
-                check('password').isLength({min:7}),
-                check('confirmPassword').isLength({min:7}),
+                check('password').isLength({min:7})
             ],
             usersControllers.signUp)
 

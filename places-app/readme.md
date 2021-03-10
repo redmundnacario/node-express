@@ -52,3 +52,11 @@ Author : **Redmund Nacario**
 
 * connect mongoose to patch and delete
 * create users schema
+
+
+### Branch: part11-signup-login-mongoose
+
+* use mongoose schemas and methods in signing up and logging in a user
+* connects users and places in schema
+* use mongoose session in updating table that cascades in other table
+
