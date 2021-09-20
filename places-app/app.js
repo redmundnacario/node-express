@@ -48,7 +48,7 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_KEY}@cluster0.dl8sn.mongodb.net/${process.env.MONGODB_NAME}?retryWrites=true&w=majority`)
     .then(() => {
-        app.listen(5000)
+        app.listen(5005)
     })
     .catch(error => {
         console.log(error)
